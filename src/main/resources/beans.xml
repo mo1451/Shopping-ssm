@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+<!-- 自动装配注解 -->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.mo1451" />
+<!-- AOP注解 -->
+    <aop:aspectj-autoproxy/>
+    
+    <!-- 导入DAO配置 -->  
+    <import resource="spring-dao.xml"/>  
+    
+    <!-- 导入数据库配置 -->  
+    <import resource="spring-db.xml"/>  
+      
+    <!-- 导入数据库配置 -->  
+    <import resource="spring-tx.xml"/>  
+    
+<!-- DataSource1 -->
+	
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	    <property name="url" value="jdbc:mysql://localhost/spring?useSSL=false"/>
+	    <property name="username" value="root"/>
+	    <property name="password" value="root"/>
+	</bean>  -->
+	
+<!-- DataSource2 -->	
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName" value="${jdbc.driverClassName}"/>
+	    <property name="url" value="${jdbc.url}"/>
+	    <property name="username" value="${jdbc.username}"/>
+	    <property name="password" value="${jdbc.password}"/>
+	</bean>
+	
+	<context:property-placeholder location="classpath:jdbc.properties"/> -->
+<!-- Hibernate -->	
+	<!-- <bean id="mySessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+       	<property name="packagesToScan" value="com.mo1451.model"></property> 
+       	<property name="annotatedClasses" value="com.mo1451.model.User"></property> 
+        <property name="hibernateProperties">
+             <props>  
+	             <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>  
+	             <prop key="hibernate.show_sql">true</prop>  
+	             <prop key="hibernate.hbm2ddl.auto">update</prop>  
+	             <prop key="hibernate.format_sql">true</prop>  
+            </props> 
+        </property>        
+	</bean> -->
+<!-- transcation_注解 -->	   
+	   <!-- enable the configuration of transactional behavior based on annotations -->
+   <!--  <tx:annotation-driven transaction-manager="txManager"/>
+    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="sessionFactory" ref="mySessionFactory" />
+    </bean>     -->
+<!-- transcation_xml -->
+	<!-- the transactional advice (what 'happens'; see the <aop:advisor/> bean below) -->
+   <!--  <tx:advice id="txAdvice" transaction-manager="txManager">
+        the transactional semantics...
+        <tx:attributes>
+            all methods starting with 'get' are read-only
+            <tx:method name="exsits" read-only="true"/>
+            other methods use the default transaction settings (see below)
+            <tx:method name="save" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>    
+    
+    <aop:config>
+        <aop:pointcut id="serviceTransaction" expression="execution(public * com.mo1451.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceTransaction"/>
+    </aop:config>
+    
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+    	<property name="sessionFactory" ref="mySessionFactory"/>
+    </bean> -->
+    
+</beans>
